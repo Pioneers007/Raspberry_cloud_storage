@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Raspberry Pi Cloud Setup</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Watermark -->
+  <div class="watermark-container">
+    <img src="https://upload.wikimedia.org/wikipedia/en/c/cb/Raspberry_Pi_Logo.svg" alt="Raspberry Pi" />
+    <img src="https://upload.wikimedia.org/wikipedia/commons/6/60/Nextcloud_Logo.svg" alt="Nextcloud" />
+  </div>
+
+  <div class="content">
+    <h1>🌐 Raspberry Pi Cloud Setup Guide</h1>
+
+    <div class="buttons">
+      <button class="btn" onclick="document.getElementById('hdd').scrollIntoView({behavior:'smooth'})">💾 Mount HDD</button>
+      <button class="btn" onclick="document.getElementById('nextcloud').scrollIntoView({behavior:'smooth'})">☁️ Nextcloud</button>
+      <button class="btn" onclick="document.getElementById('tailscale').scrollIntoView({behavior:'smooth'})">🔒 Tailscale</button>
+      <button class="btn" onclick="document.getElementById('hosting').scrollIntoView({behavior:'smooth'})">📡 Hosting Cloud</button>
+    </div>
+
+    <div id="hdd" class="section">
+      <h2>Mounting the Harddisk to the Raspberry Pi</h2>
+      <div class="step">lsblk</div>
+      <div class="step">sudo fdisk -l</div>
+      <div class="step">sudo mkdir /mnt/mydrive</div>
+      <div class="step">sudo mount /dev/sda1 /mnt/mydrive</div>
+      <div class="step">sudo mount -t auto /dev/sda1 /mnt/mydrive</div>
+      <div class="step">sudo chown -R pi:pi /mnt/mydrive</div>
+      <div class="step">sudo nano /etc/fstab</div>
+      <div class="step">df -h</div>
+    </div>
+
+    <div id="nextcloud" class="section">
+      <h2>Nextcloud Setup</h2>
+      <div class="step">sudo apt update && sudo apt upgrade -y</div>
+      <div class="step">sudo apt install apache2 -y</div>
+      <div class="step">sudo systemctl enable apache2</div>
+      <div class="step">sudo systemctl start apache2</div>
+      <div class="step">sudo apt install mariadb-server -y</div>
+      <div class="step">sudo mysql_secure_installation</div>
+      <div class="step">sudo apt install php libapache2-mod-php php-mysql php-xml php-mbstring php-zip php-curl php-gd php-intl php-bcmath -y</div>
+      <div class="step">sudo mysql -u root -p</div>
+      <div class="step">CREATE DATABASE nextcloud;</div>
+      <div class="step">CREATE USER 'nextclouduser'@'localhost' IDENTIFIED BY 'password';</div>
+      <div class="step">GRANT ALL PRIVILEGES ON nextcloud.* TO 'nextclouduser'@'localhost';</div>
+      <div class="step">FLUSH PRIVILEGES;</div>
+      <div class="step">EXIT;</div>
+      <div class="step">cd /tmp</div>
+      <div class="step">wget https://download.nextcloud.com/server/releases/latest.zip</div>
+      <div class="step">sudo apt install unzip</div>
+      <div class="step">unzip latest.zip</div>
+      <div class="step">sudo mv nextcloud /var/www/html/</div>
+      <div class="step">sudo chown -R www-data:www-data /var/www/html/nextcloud</div>
+      <div class="step">sudo chmod -R 755 /var/www/html/nextcloud</div>
+    </div>
+
+    <div id="tailscale" class="section">
+      <h2>Tailscale Setup</h2>
+      <div class="step">sudo apt update && sudo apt upgrade -y</div>
+      <div class="step">curl -fsSL https://tailscale.com/install.sh | sh</div>
+      <div class="step">sudo tailscale up</div>
+      <div class="step">sudo systemctl enable tailscaled</div>
+    </div>
+
+    <div id="hosting" class="section">
+      <h2>Hosting the Cloud Online (Tailscale Funnel)</h2>
+      <div class="step">python3 -m http.server 3000</div>
+      <div class="step">sudo tailscale funnel 3000</div>
+      <div class="step">sudo tailscale funnel 80</div>
+      <div class="step">https://rkraspberrypi.yourtailnetname.ts.net</div>
+      <div class="step">sudo nano /var/www/nextcloud/config/config.php</div>
+      <div class="step">
+        Add your IP in the config.php:<br/>
+        <pre style="white-space: pre-wrap;">'trusted_domains' => array (
+  0 => '192.168.33.135',
+  1 => '192.168.76.135',
+  2 => '100.68.238.13',
+  3 => '172.16.0.66',
+  4 => '192.168.130.135',
+  5 => 'rkraspberrypi.tail6f52bf.ts.net',
+),</pre>
+      </div>
+      <div class="step">sudo systemctl restart apache2</div>
+    </div>
+
+    <footer>
+      &copy; 2025 Raspberry Pi Cloud Storage
+    </footer>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>
