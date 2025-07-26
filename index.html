@@ -59,19 +59,20 @@
       <div class="step">sudo chmod -R 755 /var/www/html/nextcloud</div>
       <div class="step">sudo nano /etc/apache2/sites-available/nextcloud.conf</div>
       <div class="step">
-    <VirtualHost *:80>
-    ServerName your-raspberry-pi-ip
+      <VirtualHost *:80>
+      ServerName your-raspberry-pi-ip
 
-    DocumentRoot /var/www/nextcloud
+      DocumentRoot /var/www/nextcloud
 
-    <Directory /var/www/nextcloud/>
-        AllowOverride All
-        Require all granted
-    </Directory>
+      <Directory /var/www/nextcloud/>
+      AllowOverride All
+      Require all granted
+      </Directory>
 
-    ErrorLog ${APACHE_LOG_DIR}/error.log
-    CustomLog ${APACHE_LOG_DIR}/access.log combined
-    </VirtualHost></div>
+      ErrorLog ${APACHE_LOG_DIR}/error.log
+      CustomLog ${APACHE_LOG_DIR}/access.log combined
+      </VirtualHost>
+      </div>
     <div id="tailscale" class="section">
       <h2>Tailscale Setup</h2>
       <div class="step">sudo apt update && sudo apt upgrade -y</div>
