@@ -24,6 +24,7 @@ A self-hosted, privacy-first cloud that runs on a Raspberry Pi, delivers global 
 | VPN + Tunnel   | Tailscale + Funnel         | Zero-config mesh + public URL |
 
 **Hardware Checklist**
+
 Raspberry Pi 5 (or 4/3)
 
 Micro-SD card (16 GB+)
@@ -48,6 +49,7 @@ sudo chown -R pi:pi /mnt/mydrive
 sudo nano /etc/fstab       # add UUID /mnt/mydrive ext4 defaults 0 2
 
 **Install Nextcloud**
+
 sudo apt update && sudo apt upgrade -y
 sudo apt install apache2 mariadb-server php libapache2-mod-php \
  php-mysql php-xml php-mbstring php-zip php-curl php-gd \
@@ -69,6 +71,7 @@ sudo chown -R www-data:www-data /var/www/html/nextcloud
 sudo chmod -R 755 /var/www/html/nextcloud
 
 **Install & Configure Tailscale**
+
 curl -fsSL https://tailscale.com/install.sh | sh
 sudo tailscale up    # authenticate in browser
 sudo systemctl enable tailscaled
