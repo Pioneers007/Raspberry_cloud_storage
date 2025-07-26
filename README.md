@@ -42,7 +42,9 @@ Skill: Basic Linux CLI
 Mount External Drive
 
 lsblk                      # identify /dev/sda1
+
 yes | sudo mkfs.ext4 /dev/sda1
+
 sudo mkdir /mnt/mydrive
 sudo mount /dev/sda1 /mnt/mydrive
 sudo chown -R pi:pi /mnt/mydrive
