@@ -139,6 +139,13 @@ Multi-user support – Easily manage roles, quotas for teams or families
 | 🔄 Centralized Option | Hosted version for users who can’t manage hardware locally      |
 
 
+**Check out the Set Guide**
+
+https://pioneers007.github.io/Raspberry_cloud_storage/
+
+
+
+
 
 
 
