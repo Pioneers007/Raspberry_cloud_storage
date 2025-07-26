@@ -72,6 +72,30 @@ sudo mv nextcloud /var/www/html/
 sudo chown -R www-data:www-data /var/www/html/nextcloud
 sudo chmod -R 755 /var/www/html/nextcloud
 
+**Configure Apache for Nextcloud**
+
+sudo nano /etc/apache2/sites-available/nextcloud.conf
+Add the following content:
+<VirtualHost *:80>
+    ServerName your-raspberry-pi-ip
+
+    DocumentRoot /var/www/nextcloud
+
+    <Directory /var/www/nextcloud/>
+        AllowOverride All
+        Require all granted
+    </Directory>
+
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+
+**Enable configuration**
+
+sudo a2ensite nextcloud.conf
+sudo a2enmod rewrite
+sudo systemctl restart apache2
+
 **Install & Configure Tailscale**
 
 curl -fsSL https://tailscale.com/install.sh | sh
@@ -82,6 +106,7 @@ sudo systemctl enable tailscaled
 sudo tailscale funnel 80   # get https://<device>.tailnet.ts.net
 
 **Trust the Public URL**
+
 sudo nano /var/www/nextcloud/config/config.php
 # Add to 'trusted_domains':
 'trusted_domains' => [
